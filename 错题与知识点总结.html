@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>AI学习：知识点总结与错题详解（Day1-Day6）</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm; }
+  body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; font-size: 10.5pt; line-height: 1.65; color: #222; }
+  h1 { font-size: 20pt; margin: 0 0 6px; letter-spacing: 1px; }
+  h2 { font-size: 14pt; margin: 22px 0 8px; padding-left: 8px; border-left: 4px solid #3b6ea5; }
+  h3 { font-size: 11.5pt; margin: 14px 0 5px; color: #2c4a6b; }
+  p { margin: 5px 0; }
+  ul, ol { margin: 5px 0 5px 20px; padding: 0; }
+  li { margin: 3px 0; }
+  code { font-family: Consolas, "Courier New", monospace; background: #f1f3f5; padding: 1px 4px; border-radius: 3px; font-size: 95%; }
+  pre.code { font-family: Consolas, "Courier New", monospace; background: #f6f8fa; border-left: 3px solid #c9d3df; padding: 8px 10px; margin: 6px 0; font-size: 9.5pt; white-space: pre-wrap; }
+  .cover { text-align: center; padding-top: 60px; }
+  .cover .sub { color: #666; font-size: 11pt; margin-top: 8px; }
+  .cover .box { display: inline-block; text-align: left; margin-top: 28px; border: 1px solid #dde3ea; padding: 14px 18px; border-radius: 6px; background: #fafbfc; font-size: 10pt; }
+  .err { background: #fff6f6; border: 1px solid #f2cccc; padding: 8px 10px; border-radius: 5px; margin: 6px 0; }
+  .err .label { font-weight: bold; color: #b03a3a; }
+  .ok { background: #f5fbf6; border: 1px solid #cbe6d2; padding: 8px 10px; border-radius: 5px; margin: 6px 0; }
+  .ok .label { font-weight: bold; color: #2f7a46; }
+  .key { background: #fffbe8; border: 1px solid #f0e2a8; padding: 8px 10px; border-radius: 5px; margin: 10px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 9.5pt; }
+  th, td { border: 1px solid #d6dce4; padding: 5px 7px; text-align: left; vertical-align: top; }
+  th { background: #eef2f7; }
+  .item { margin: 10px 0 12px; page-break-inside: avoid; }
+  .item .no { font-weight: bold; color: #3b6ea5; }
+  .tag { display: inline-block; font-size: 8.5pt; background: #eef2f7; color: #45688f; border-radius: 3px; padding: 0 5px; margin-left: 6px; }
+  .toc { border: 1px solid #dde3ea; border-radius: 6px; padding: 12px 18px; background: #fafbfc; }
+  .pb { page-break-before: always; }
+  .small { color: #666; font-size: 9.5pt; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>知识点总结与错题详解</h1>
+  <div class="sub">Python 入门 · Day1 到 Day6 · 2026-10-25 至 10-29</div>
+  <div class="box">
+    <p><b>这份东西怎么用</b></p>
+    <p>第一部分：六天学过的知识点，按天排，忘了就翻这里。</p>
+    <p>第二部分：40 条错题，编号跟错题本对得上，每条写了错在哪、为什么、怎么改。</p>
+    <p>第三部分：速查表，写代码卡住时看这几页。</p>
+    <p class="small">建议：先看第二部分，再看第一部分。错题比知识点更接近你的真实水平。</p>
+  </div>
+</div>
+
+<div class="pb"></div>
+<h2>第一部分　知识点总结</h2>
+
+<h3>Day1　环境与第一个程序</h3>
+<ul>
+  <li><b>PyCharm 是什么</b>：写代码的地方，本身不能跑代码。真正执行的是 Python 解释器。</li>
+  <li><b>三件套</b>：编辑器写代码、解释器执行、终端看结果。</li>
+  <li><code>print()</code>：把括号里的东西显示出来。</li>
+  <li><code>input()</code>：显示提示，停住等你打字，回车后继续。</li>
+  <li><b>变量赋值</b>：<code>name = input("你叫什么？")</code>，右边整体跑完，结果装进左边的盒子。</li>
+  <li><b>for 循环</b>：<code>for i in range(3):</code> 下面缩进的部分重复三遍。</li>
+  <li><b>注释</b>：<code>#</code> 开头，电脑不看这行。</li>
+  <li><b>缩进</b>：属于循环、判断的代码前面空四格，少了多了都算错。</li>
+</ul>
+
+<h3>Day2　第一个 Python 程序</h3>
+<ul>
+  <li>字符串用单引号或双引号都行，<code>'abc'</code> 和 <code>"abc"</code> 一样。</li>
+  <li>Python 语句不用分号结尾，换行就表示一句结束。</li>
+  <li><b>单行注释</b>：<code>#</code>，<b>多行注释</b>：三个引号开头、三个引号结尾。</li>
+  <li>标点必须是英文输入法下的。写成中文，报 <code>SyntaxError: invalid character '（' (U+FF08)</code>。</li>
+</ul>
+
+<h3>Day3　变量和类型</h3>
+<ul>
+  <li><b>变量</b>：一块保存数据的内存空间，值可读可改。</li>
+  <li><b>四种常用类型</b>：<code>int</code> 整数、<code>float</code> 小数、<code>str</code> 文字、<code>bool</code> 真假（只有 True / False）。</li>
+  <li><code>type(变量)</code> 查类型，打出来是 <code>&lt;class 'int'&gt;</code> 这种，意思就是「它属于 int 这一类」。</li>
+  <li><b>进制写法</b>：<code>0b</code> 二进制、<code>0o</code> 八进制、<code>0x</code> 十六进制。<br>
+      例：<code>0b1010</code> = 10，<code>0o17</code> = 15，<code>0x1f</code> = 1×16+15 = 31。</li>
+  <li><b>命名规则</b>（不遵守就报错）：
+    <ul>
+      <li>只能由字母、数字、下划线组成，数字不能开头</li>
+      <li>大小写敏感，<code>Age</code> 和 <code>age</code> 是两个变量</li>
+      <li>不能跟关键字、内置名重名：<code>if</code>、<code>for</code>、<code>True</code>、<code>int</code>、<code>print</code>、<code>input</code> 都不行</li>
+    </ul>
+  </li>
+  <li><b>命名惯例</b>：用小写字母，多个单词用下划线连，<code>my_age</code>。单个下划线开头（<code>_age</code>）是合法的。</li>
+  <li><b>类型转换</b>：<code>int()</code> 转整数、<code>float()</code> 转小数、<code>str()</code> 转文字、<code>bool()</code> 转真假、<code>chr()</code> 编号转字符、<code>ord()</code> 字符转编号。</li>
+  <li><code>int('101', base=2)</code> 表示把 <code>'101'</code> 当二进制看，等于 5。</li>
+</ul>
+
+<h3>Day4　运算符</h3>
+<table>
+  <tr><th>运算符</th><th>意思</th><th>例子</th><th>结果</th></tr>
+  <tr><td>+ - * /</td><td>加减乘除</td><td>321 / 12</td><td>26.75（除法一定出小数）</td></tr>
+  <tr><td>//</td><td>整除，只留整数部分</td><td>321 // 12</td><td>26</td></tr>
+  <tr><td>%</td><td>取余，只留余数</td><td>321 % 12</td><td>9</td></tr>
+  <tr><td>**</td><td>乘方</td><td>2 ** 10</td><td>1024</td></tr>
+</table>
+<ul>
+  <li><b>优先级</b>：<code>**</code> 高于 <code>* / // %</code>，高于 <code>+ -</code>。括号优先。<br>
+      例：<code>(2 + 3) * 5 ** 2</code> 先算 5²=25，再 5×25=125。</li>
+  <li><b>复合赋值</b>：<code>a += 5</code> 等于 <code>a = a + 5</code>；<code>a *= 2</code> 等于 <code>a = a * 2</code>。</li>
+  <li><b>海象运算符</b> <code>:=</code>：边赋值边出值，<code>print((a := 10))</code> 打印 10，a 也变成 10。用得少，知道就行。</li>
+  <li><b>比较运算符</b>：<code>== != &lt; &gt; &lt;= &gt;=</code>，结果是 True 或 False。注意比较用两个等号。</li>
+  <li><b>逻辑运算符</b>：<code>and</code>（都真才真）、<code>or</code>（一个真就真）、<code>not</code>（取反）。</li>
+  <li><b>值相等 ≠ 类型相同</b>：<code>1 == 1.0</code> 是 True，<code>0 == False</code> 是 True，但 <code>'0' == 0</code> 是 False。</li>
+  <li><b>f-string</b>：<code>f'面积:{area:.2f}'</code>，<code>:.2f</code> 保留两位小数，<code>:.1f</code> 一位。<br>
+      <code>f'{y = }'</code> 会打出「y = 值」，这是 3.8 加的调试写法，只在调试时用。</li>
+  <li><code>import math</code> 之后可以用 <code>math.pi</code> 拿圆周率。</li>
+</ul>
+
+<h3>Day5　分支结构</h3>
+<ul>
+  <li><b>基本形状</b>：<code>if 条件:</code> 满足走这里；<code>elif 条件:</code> 前面不满足再看这里；<code>else:</code> 全都不满足走这里。</li>
+  <li>三条规矩：冒号是英文冒号、下面内容缩进四格、同一层代码缩进必须一样。</li>
+  <li>只有一条路会被执行，其余跳过。</li>
+  <li><b>链式比较</b>：<code>18.5 &lt;= bmi &lt; 24</code>，Python 支持这种写法，不用拆成两个条件再 and。</li>
+  <li>elif 的顺序很重要：判断成绩要从高往低写，反过来全落到第一个分支。</li>
+  <li><b>match-case</b>（3.10 以后）：
+<pre class="code">match 变量:
+    case 1: print("星期一")
+    case 400 | 401 | 404: print("请求有问题")   # 竖线表示"或者"
+    case _: print("输入有误")                  # 下划线通配，放最后</pre>
+  </li>
+  <li><b>嵌套 vs 扁平</b>：能扁平就别嵌套。Python 之禅里那句「Flat is better than nested」，嵌套多了没法读。</li>
+</ul>
+
+<h3>Day6　循环结构</h3>
+<ul>
+  <li><b>知道几次用 for，不知道几次用 while</b>。</li>
+  <li><b>range 四种写法</b>：
+    <table>
+      <tr><th>写法</th><th>产生</th></tr>
+      <tr><td><code>range(5)</code></td><td>0 1 2 3 4（取不到 5）</td></tr>
+      <tr><td><code>range(1, 5)</code></td><td>1 2 3 4（左闭右开）</td></tr>
+      <tr><td><code>range(1, 10, 3)</code></td><td>1 4 7（步长 3）</td></tr>
+      <tr><td><code>range(100, 0, -50)</code></td><td>100 50（负步长倒着数）</td></tr>
+    </table>
+  </li>
+  <li><b>累加器模式</b>（高频套路）：
+<pre class="code">total = 0
+for i in range(1, 101):
+    total += i
+print(total)      # 5050</pre>
+  </li>
+  <li><b>while 要点</b>：循环变量要在循环体里自己变大，忘了就是死循环。
+<pre class="code">i = 1
+while i &lt;= 100:
+    total += i
+    i += 1        # 这一行缺了就是死循环</pre>
+  </li>
+  <li><b>break</b>：立刻结束整个循环，后面的代码一行都不执行。</li>
+  <li><b>continue</b>：这一轮剩下的跳过，直接进入下一轮。continue 只能待在循环里，单独写报 <code>SyntaxError: 'continue' not properly in loop</code>。</li>
+  <li><b>嵌套循环</b>：外层管行，内层管列。九九表就是这个结构。</li>
+  <li><b>随机数</b>：<code>import random</code>，<code>random.randrange(1, 101)</code> 出 1 到 100 的整数。</li>
+  <li><b>素数判断</b>：从 2 试到它的平方根，能整除就 break，用一个布尔变量记结果。</li>
+  <li><b>最大公约数</b>：从大到小试，第一个能同时整除两个数的就是答案，找到就 break。</li>
+</ul>
+
+<div class="pb"></div>
+<h2>第二部分　错题详解（40 条）</h2>
+<p class="small">编号与错题本一致，按时间排。每条：什么错 → 为什么 → 怎么改。</p>
+
+<h3>10-26　Day2、Day3</h3>
+
+<div class="item">
+<p><span class="no">1. 把 int、float、str、bool 当变量名</span><span class="tag">命名</span></p>
+<div class="err"><span class="label">报错　</span><code>TypeError: 'int' object is not callable</code></div>
+<p><b>为什么</b>：这四个是 Python 自带的函数。你写 <code>int = 25</code>，等于把它抢过来变成数字，之后再调 <code>int('123')</code> 就叫不动了。</p>
+<div class="ok"><span class="label">正解　</span>变量名换成 <code>my_int</code>、<code>my_float</code> 这种，别跟内置名撞。</div>
+<p class="small"><b>记住</b>：内置名、关键字，一个都不能拿来当变量名。</p>
+</div>
+
+<div class="item">
+<p><span class="no">2. 0x1f 以为等于 16</span><span class="tag">进制</span></p>
+<p><b>为什么</b>：0x 是十六进制。1 在十六位，f 是 15，所以 1×16+15 = 31。</p>
+<div class="ok"><span class="label">正解　</span>看到 0b、0o、0x 先确认进制，再按位权展开。0b1010 = 10，0o17 = 15，0x1f = 31。</div>
+</div>
+
+<div class="item">
+<p><span class="no">3. int('101', base=2) 猜 4，实际 5</span><span class="tag">进制</span></p>
+<p><b>为什么</b>：二进制 101 是 1×4 + 0×2 + 1 = 5，不是把三个数字当 1、0、1 读。</p>
+<div class="ok"><span class="label">正解　</span>base 参数表示「把这个字符串按几进制理解」，从右往左每位的权重是 1、2、4、8……</div>
+</div>
+
+<div class="item">
+<p><span class="no">4. hallo 拼成了错的样子</span><span class="tag">习惯</span></p>
+<p><b>为什么</b>：拼写错误程序不报错，安安静静把错的打出来，最难发现。</p>
+<div class="ok"><span class="label">正解　</span>写完读一遍输出，别只看「有没有报错」。</div>
+</div>
+
+<div class="item">
+<p><span class="no">5. 转换了但没 print</span><span class="tag">习惯</span></p>
+<p><b>为什么</b>：<code>int('123')</code> 算出来了，但没让它显示，运行窗口就是空的。</p>
+<div class="ok"><span class="label">正解　</span>转换和打印是两件事，要看见就得 <code>print()</code>。</div>
+</div>
+
+<div class="item">
+<p><span class="no">6. 中文括号</span><span class="tag">标点</span></p>
+<div class="err"><span class="label">报错　</span><code>SyntaxError: invalid character '（' (U+FF08)</code></div>
+<p><b>为什么</b>：输入法还在中文状态，括号、引号、冒号全成了全角字符，Python 不认。</p>
+<div class="ok"><span class="label">正解　</span>看到 invalid character 加 U+ 编号，第一反应就是中文标点。写代码前切英文。</div>
+</div>
+
+<h3>10-27　复习01</h3>
+
+<div class="item">
+<p><span class="no">7. 把 input() 直接塞进 print</span><span class="tag">输入</span></p>
+<p><b>错法</b>：<code>print(input("请输入数字"))</code>，两个输入各打各的，中间没有任何关系，做不了加法。</p>
+<p><b>为什么</b>：input 拿回来就打印了，没有装进任何变量，也就没法参与运算。</p>
+<div class="ok"><span class="label">正解　</span>三行：<code>x = int(input("第一个数："))</code>、<code>y = int(input("第二个数："))</code>、<code>print(x + y)</code>。</div>
+</div>
+
+<div class="item">
+<p><span class="no">8. 知道要转换，不知道怎么写进变量</span><span class="tag">输入</span></p>
+<div class="ok"><span class="label">模板　</span><code>变量名 = int(input("提示语"))</code>　等号右边整体跑完，结果才装进左边。</div>
+<p class="small"><b>记住</b>：这个形状以后要写几百遍，背下来。</p>
+</div>
+
+<div class="item">
+<p><span class="no">9. 文字加数字</span><span class="tag">类型</span></p>
+<div class="err"><span class="label">报错　</span><code>TypeError: can only concatenate str (not "int") to str</code></div>
+<p><b>为什么</b>：<code>+</code> 两边都是文字才叫拼接，混进数字就崩。</p>
+<div class="ok"><span class="label">正解　</span>先算进变量，用 <code>str()</code> 转成文字，再拼。拼接里不要塞运算。<br>
+<code>next_age = age + 1</code>　<code>print("明年" + str(next_age) + "岁")</code></div>
+</div>
+
+<div class="item">
+<p><span class="no">10. float 拼成 floes</span><span class="tag">拼写</span></p>
+<p><b>为什么</b>：拼错不报错，但答案算错。</p>
+<div class="ok"><span class="label">正解　</span>四个类型名背死：int、float、str、bool。</div>
+</div>
+
+<div class="item">
+<p><span class="no">11. 以为循环输出在一行</span><span class="tag">循环</span></p>
+<p><b>为什么</b>：print 每次都换行，<code>for i in range(3): print(i)</code> 出来是 0、1、2 三行。</p>
+<div class="ok"><span class="label">正解　</span>想不换行用 <code>print(i, end=' ')</code> 或 <code>end='\t'</code>。</div>
+</div>
+
+<div class="item">
+<p><span class="no">12. 改错题改错了内容</span><span class="tag">习惯</span></p>
+<p><b>为什么</b>：根因是缩进，不是 print 里的字。</p>
+<div class="ok"><span class="label">正解　</span>只补缩进，字别动。改错先问「哪条规矩破了」。</div>
+</div>
+
+<div class="item">
+<p><span class="no">13. 变量名判断错两处</span><span class="tag">命名</span></p>
+<p><b>为什么</b>：<code>_age</code> 合法（单个下划线开头可以）；<code>my age</code> 不合法（中间不能有空格）。</p>
+<div class="ok"><span class="label">正解　</span>想分词就用下划线：<code>my_age</code>。</div>
+</div>
+
+<div class="item">
+<p><span class="no">14. 打印时把内容写死</span><span class="tag">习惯</span></p>
+<p><b>为什么</b>：建了 name、age 变量，打印却写死「我叫老大，今年20岁」，变量建了等于没建。</p>
+<div class="ok"><span class="label">正解　</span>用变量拼：<code>print("我叫" + name + "，今年" + age + "岁")</code>。</div>
+</div>
+
+<h3>10-28　复习02、Day4 运算符</h3>
+
+<div class="item">
+<p><span class="no">15. 循环里打什么，看成循环变量</span><span class="tag">循环</span></p>
+<p><b>错法</b>：<code>for i in range(2): print("循环")</code>，答案写成 0、1。</p>
+<p><b>为什么</b>：循环只负责重复次数，打什么由 print 里写的东西决定。</p>
+<div class="ok"><span class="label">正解　</span>实际打两行「循环」。想打 0、1 得写 <code>print(i)</code>。</div>
+</div>
+
+<div class="item">
+<p><span class="no">16. 又打成中文括号</span><span class="tag">标点</span></p>
+<p><b>为什么</b>：第二次犯。逻辑没错，标点错，一样跑不起来。</p>
+<div class="ok"><span class="label">正解　</span>写代码前先看输入法。这个错一旦养成，一天能犯十次。</div>
+</div>
+
+<div class="item">
+<p><span class="no">17. PyCharm 自动补全误点出垃圾 import</span><span class="tag">习惯</span></p>
+<p><b>为什么</b>：文件顶部多了 <code>from ftplib import parse150</code>，不影响运行但完全没用，看着像懂行，其实是不认识的东西。</p>
+<div class="ok"><span class="label">正解　</span>自己不认识的 import，直接删。补全弹窗别乱按 Tab。</div>
+</div>
+
+<div class="item">
+<p><span class="no">18. 答案看串行</span><span class="tag">习惯</span></p>
+<p><b>为什么</b>：<code>321 // 12</code> 是 26，<code>321 % 12</code> 是 9，两道答案写反了。</p>
+<div class="ok"><span class="label">正解　</span>题多的时候写完对一遍行号。</div>
+</div>
+
+<div class="item">
+<p><span class="no">19. 没搞清 ** 的优先级</span><span class="tag">运算符</span></p>
+<p><b>错法</b>：<code>(2 + 3) * 5 ** 2</code> 答 625，实际 125。</p>
+<p><b>为什么</b>：<code>**</code> 比 <code>*</code> 先算。先 5² = 25，再 5×25 = 125。</p>
+<p><b>625 怎么来的</b>：把它当成 <code>((2+3)*5)**2</code> 了，多套一层括号。</p>
+</div>
+
+<div class="item">
+<p><span class="no">20. 把「值相等」当成「类型相同」</span><span class="tag">运算符</span></p>
+<p><b>错法</b>：<code>1 == 1.0</code> 答 False，<code>0 == False</code> 答不相等。</p>
+<p><b>为什么</b>：<code>==</code> 比的是值，不看类型。1 和 1.0 数值相同，False 在数字里就当 0 用。</p>
+<div class="ok"><span class="label">正解　</span><code>==</code> 看值，<code>type()</code> 看类型。但 <code>'0' == 0</code> 是 False——字符串和数字不是一回事。</div>
+</div>
+
+<div class="item">
+<p><span class="no">21. 布尔值大小写</span><span class="tag">拼写</span></p>
+<p><b>为什么</b>：答案写 true、false，Python 打出来是 True、False，首字母必须大写。</p>
+<div class="ok"><span class="label">正解　</span>True、False 当关键字看，大小写错了就不是那个东西。</div>
+</div>
+
+<div class="item">
+<p><span class="no">22. 该用 float 的地方用了 int</span><span class="tag">类型</span></p>
+<p><b>为什么</b>：华氏温度、圆的半径都可能带小数，<code>int</code> 会把小数部分直接砍掉，98.6 变 98。</p>
+<div class="ok"><span class="label">正解　</span>可能带小数的量一律 <code>float</code>。要保留两位小数写 <code>f'{area:.2f}'</code>，光转换不够。</div>
+</div>
+
+<div class="item">
+<p><span class="no">23. f-string 外面又包 str()</span><span class="tag">习惯</span></p>
+<p><b>为什么</b>：<code>str(f'{x:.2f}')</code>，f-string 出来本来就是字符串，再转一次白转。</p>
+<div class="ok"><span class="label">正解　</span>直接 <code>print(f'周长:{x:.2f}')</code>。</div>
+</div>
+
+<div class="item">
+<p><span class="no">24. 复制粘贴忘改字</span><span class="tag">习惯</span></p>
+<p><b>为什么</b>：面积那行打印成了「周长：78.54」，逻辑对、标签错。</p>
+<div class="ok"><span class="label">正解　</span>复制代码后，把变量名和文字一起过一遍。</div>
+</div>
+
+<h3>10-29（28 号深夜）　Day5 分支</h3>
+
+<div class="item">
+<p><span class="no">25. if 里用了单等号</span><span class="tag">语法</span></p>
+<div class="err"><span class="label">报错　</span><code>SyntaxError: invalid syntax. Maybe you meant '==' or ':=' instead of '='?</code></div>
+<p><b>为什么</b>：<code>=</code> 是赋值，<code>==</code> 才是比较。if、elif、while 后面一律两个等号。</p>
+<div class="ok"><span class="label">正解　</span>Python 连提示都写在报错里了，看到 "Maybe you meant '=='" 就改两个等号。</div>
+</div>
+
+<div class="item">
+<p><span class="no">26. 语法错误会挡住整个文件</span><span class="tag">调试</span></p>
+<p><b>为什么</b>：只要有一处语法错，整个文件一行都不跑，后面的运行时错误全被盖住。</p>
+<div class="ok"><span class="label">正解　</span>改完一处立刻再跑一遍，一层层往下清，别一次改五处。</div>
+</div>
+
+<div class="item">
+<p><span class="no">27. 变量名前后不一致</span><span class="tag">命名</span></p>
+<div class="err"><span class="label">报错　</span><code>NameError: name 'zc' is not defined</code></div>
+<p><b>为什么</b>：上面定义的是 <code>zs</code>，下面用了 <code>zc</code>。</p>
+<div class="ok"><span class="label">正解　</span>敲完顺手看一眼上下行变量名对不对。NameError 八成就是拼错或没定义。</div>
+</div>
+
+<div class="item">
+<p><span class="no">28. 把半周长当周长打</span><span class="tag">逻辑</span></p>
+<p><b>错法</b>：<code>print("周长:" + str(s))</code>，s 是半周长。边长 3、4、5 应打 12，实际打了 6。</p>
+<div class="ok"><span class="label">正解　</span>中间变量叫什么，打印前心里过一遍。周长是 <code>a + b + c</code>，半周长才是除以 2。</div>
+</div>
+
+<div class="item">
+<p><span class="no">29. float() 外面又包 f-string</span><span class="tag">类型</span></p>
+<p><b>错法</b>：<code>float(f'{tz/(sg/100)**2}')</code>，先变文字再转回数字，绕一圈还可能出错。</p>
+<div class="ok"><span class="label">正解　</span>直接 <code>tz / (sg / 100) ** 2</code>，除法出来的本来就是小数。</div>
+</div>
+
+<div class="item">
+<p><span class="no">30. 变量名拼错 BMI</span><span class="tag">命名</span></p>
+<p><b>为什么</b>：写成 <code>BIM</code>。不报错，但自己以后看不懂。</p>
+<div class="ok"><span class="label">正解　</span>缩写也别拼错，B-M-I 顺序别乱。</div>
+</div>
+
+<div class="item">
+<p><span class="no">31. 判断题漏答</span><span class="tag">习惯</span></p>
+<p><b>为什么</b>：只写「大于3」，漏了后面那行「结束」。</p>
+<div class="ok"><span class="label">正解　</span><code>print("结束")</code> 没缩进，不在 if 里，一定会执行。</div>
+</div>
+
+<div class="item">
+<p><span class="no">32. 没看出 if x = 5 的错</span><span class="tag">语法</span></p>
+<p><b>为什么</b>：就是第 25 条那个单等号。</p>
+<div class="ok"><span class="label">正解　</span>看到 if 后面有单个等号，直接判错。</div>
+</div>
+
+<div class="item">
+<p><span class="no">33. 改错去改内容，不改根因</span><span class="tag">习惯</span></p>
+<p><b>为什么</b>：根因是缩进，却加了个 else 把题目要求也改了。</p>
+<div class="ok"><span class="label">正解　</span>改错先找「哪条规矩破了」，只修那一条。</div>
+</div>
+
+<h3>10-29　Day6 循环</h3>
+
+<div class="item">
+<p><span class="no">34. break 和 continue 理解反了</span><span class="tag">循环</span></p>
+<div class="err"><span class="label">错法　</span>1-5 答 3（实际打 0、1、2）；1-6 答 0、2、4（实际打 1、3）</div>
+<p><b>为什么</b>：以为 break 是「打完这一轮再停」，continue 是「满足条件才执行」。</p>
+<div class="ok"><span class="label">正解　</span>break 是掀桌子走人，整个循环立刻结束；continue 是这盘菜不吃，下一盘继续。</div>
+<p class="small"><b>对照</b>：<code>for i in range(10): if i == 3: break; print(i)</code> → 0 1 2。<br>
+<code>for i in range(5): if i % 2 == 0: continue; print(i)</code> → 1 3。</p>
+</div>
+
+<div class="item">
+<p><span class="no">35. 改错时把正确的东西也删了</span><span class="tag">习惯</span></p>
+<p><b>为什么</b>：死循环那题只加了 <code>i += 1</code>，把 <code>print(i)</code> 删了，最后只打一个 6。</p>
+<div class="ok"><span class="label">正解　</span>循环体里两行：先 print(i)，再 i += 1。改错只动错的地方。</div>
+</div>
+
+<div class="item">
+<p><span class="no">36. 说 continue 单独写「可能报错」</span><span class="tag">语法</span></p>
+<div class="err"><span class="label">报错　</span><code>SyntaxError: 'continue' not properly in loop</code></div>
+<p><b>为什么</b>：不是可能，是必定。continue 只能待在循环里。</p>
+<div class="ok"><span class="label">正解　</span>break 和 continue 都是循环专用，放外面一律语法错误。</div>
+</div>
+
+<div class="item">
+<p><span class="no">37. 最大公约数，循环变量没参与判断</span><span class="tag">逻辑</span></p>
+<p><b>错法</b>：写了 <code>for i in range(m, 0, -1)</code>，条件却是 <code>m % j == 0 and j % m == 0</code>，i 一次都没用到。</p>
+<p><b>为什么</b>：循环变量不进条件，这个循环等于空转。而且 <code>m % j</code> 表示「m 能被 j 整除」，意思也反了。</p>
+<div class="ok"><span class="label">正解　</span>条件用 i：<code>if m % i == 0 and j % i == 0:</code></div>
+</div>
+
+<div class="item">
+<p><span class="no">38. 找到答案忘了 break</span><span class="tag">循环</span></p>
+<p><b>为什么</b>：条件成立后没 break，循环继续往下试，会打出一堆结果。</p>
+<div class="ok"><span class="label">正解　</span>「找到就走」的场景，print 后面紧跟 break。</div>
+</div>
+
+<div class="item">
+<p><span class="no">39. 打印用错变量</span><span class="tag">逻辑</span></p>
+<p><b>错法</b>：<code>print(f'{m}是最大公因数')</code>，输入 12 和 18 打出 12。</p>
+<p><b>为什么</b>：m 是最初输入的数，从头没变过。答案在循环变量 i 身上。</p>
+<div class="ok"><span class="label">正解　</span><code>print(f'{i}是最大公因数')</code>，12 和 18 出 6。</div>
+</div>
+
+<div class="item">
+<p><span class="no">40. 变量名随手起</span><span class="tag">命名</span></p>
+<p><b>为什么</b>：猜数字里用了 <code>da</code>、<code>op</code>、<code>CS</code>。能跑，但过两天自己看不懂。</p>
+<div class="ok"><span class="label">正解　</span>answer、guess、count 这种，见名知意。面试官也看这个。</div>
+</div>
+
+<div class="pb"></div>
+<h2>第三部分　速查表</h2>
+
+<h3>1. 四个高频模板</h3>
+<pre class="code"># 输入数字并计算
+x = int(input("第一个数："))
+y = int(input("第二个数："))
+print(x + y)
+
+# 判断
+score = float(input("成绩："))
+if score &gt;= 90:
+    print("A")
+elif score &gt;= 60:
+    print("及格")
+else:
+    print("不及格")
+
+# 循环累加
+total = 0
+for i in range(1, 101):
+    total += i
+print(total)
+
+# 一直问直到猜中
+answer = 42
+while True:
+    guess = int(input("猜："))
+    if guess == answer:
+        print("对了")
+        break</pre>
+
+<h3>2. 报错对照表</h3>
+<table>
+  <tr><th>报错里出现</th><th>说明</th><th>怎么修</th></tr>
+  <tr><td>invalid character '（' (U+FF08)</td><td>混进了中文标点</td><td>切英文输入法，重打括号引号冒号</td></tr>
+  <tr><td>invalid syntax. Maybe you meant '=='</td><td>if 里用了单等号</td><td>改成两个等号</td></tr>
+  <tr><td>expected ':'</td><td>漏了冒号</td><td>if / for / while 那行末尾补英文冒号</td></tr>
+  <tr><td>IndentationError</td><td>缩进不对</td><td>统一四空格，同一层对齐</td></tr>
+  <tr><td>NameError: name 'x' is not defined</td><td>名字没定义或拼错</td><td>检查上下行变量名是否一致</td></tr>
+  <tr><td>can only concatenate str (not "int") to str</td><td>文字和数字拼接</td><td>先算再 str()，或用逗号</td></tr>
+  <tr><td>'int' object is not callable</td><td>内置函数名被当变量名用了</td><td>改掉变量名</td></tr>
+  <tr><td>'&lt;' not supported between 'str' and 'float'</td><td>拿字符串跟数字比大小</td><td>数字就纯算，别用 f-string 包</td></tr>
+  <tr><td>'continue' not properly in loop</td><td>break / continue 写在循环外</td><td>挪进循环体</td></tr>
+</table>
+
+<h3>3. 六条铁律</h3>
+<ol>
+  <li>代码里的标点，永远是英文的。</li>
+  <li><code>=</code> 是装进去，<code>==</code> 是问相等。</li>
+  <li>属于 if / for / while 的行，缩进四格。</li>
+  <li>知道循环几次用 for，不知道用 while，while 里别忘了让变量变。</li>
+  <li>可能带小数就用 float，输入永远先是字符串。</li>
+  <li>变量名写清楚，别用 da、op、aaa 这种。</li>
+</ol>
+
+<div class="key">
+<p><b>最后一句</b></p>
+<p>这 40 条错里，真正因为「笨」的一条都没有。都是手快、眼快、没回头看一眼。</p>
+<p>把它们翻三遍，比多做三十道题有用。</p>
+</div>
+
+</body>
+</html>

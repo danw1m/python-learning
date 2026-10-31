@@ -1,0 +1,7 @@
+.idea/
+__pycache__/
+*.pyc
+.DS_Store
+# 第三方教程，只留本地参考，不传到 GitHub
+Python-100-Days/
+llm-cookbook/

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Python 循环详解与由易到难例题</title>
+<style>
+  @page { size: A4; margin: 15mm 13mm; }
+  body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; font-size: 10.5pt; line-height: 1.62; color: #222; }
+  h1 { font-size: 19pt; margin: 0 0 4px; }
+  h2 { font-size: 14pt; margin: 22px 0 8px; padding-left: 8px; border-left: 4px solid #3b6ea5; }
+  h3 { font-size: 11.5pt; margin: 14px 0 5px; color: #2c4a6b; }
+  h4 { font-size: 10.8pt; margin: 10px 0 4px; color: #3a3a3a; }
+  p { margin: 5px 0; }
+  ul, ol { margin: 5px 0 5px 20px; padding: 0; }
+  li { margin: 3px 0; }
+  code { font-family: Consolas, monospace; background: #f1f3f5; padding: 1px 4px; border-radius: 3px; font-size: 95%; }
+  pre.code { font-family: Consolas, monospace; background: #f6f8fa; border-left: 3px solid #c9d3df; padding: 8px 10px; margin: 6px 0; font-size: 9.4pt; white-space: pre-wrap; line-height: 1.5; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 9.5pt; }
+  th, td { border: 1px solid #d6dce4; padding: 5px 7px; vertical-align: top; }
+  th { background: #eef2f7; }
+  .tip { background: #fffbe8; border: 1px solid #f0e2a8; padding: 8px 10px; border-radius: 5px; margin: 8px 0; }
+  .warn { background: #fff6f6; border: 1px solid #f2cccc; padding: 8px 10px; border-radius: 5px; margin: 8px 0; }
+  .q { background: #f4f8fd; border: 1px solid #cfe0f2; border-radius: 5px; padding: 9px 11px; margin: 10px 0; page-break-inside: avoid; }
+  .q .title { font-weight: bold; color: #2c4a6b; }
+  .lv { display: inline-block; font-size: 8.5pt; background: #e8eef6; color: #45688f; border-radius: 3px; padding: 0 5px; margin-left: 6px; }
+  .cover { text-align: center; padding-top: 50px; }
+  .box { display: inline-block; text-align: left; border: 1px solid #dde3ea; padding: 14px 18px; border-radius: 6px; background: #fafbfc; margin-top: 22px; font-size: 10pt; }
+  .pb { page-break-before: always; }
+  .small { color: #666; font-size: 9.3pt; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Python 循环详解</h1>
+  <p class="small">从「看不懂」到「写得出」· 配 18 道由易到难的例题</p>
+  <div class="box">
+    <p><b>这份手册怎么用</b></p>
+    <p>第一到第六节讲知识，每节后面跟着例题，<b>例题都有答案和讲解</b>。</p>
+    <p>第七节是分类题库，按难度分五级，从打印一行字到百钱百鸡。</p>
+    <p>第八、九节讲坑和写法，卡住的时候翻这两节。</p>
+    <p class="small">建议顺序：先读第六节「状态管理」，那是最容易卡的地方，再回头顺着读。</p>
+  </div>
+</div>
+
+<div class="pb"></div>
+<h2>一、循环到底是什么</h2>
+
+<p>循环就是把同一段代码重复执行。没有循环，程序只能从上往下走一遍；有了循环，程序才会「反复做事」。</p>
+
+<h3>1. 循环的三要素</h3>
+<table>
+  <tr><th>要素</th><th>作用</th><th>对应代码</th></tr>
+  <tr><td>起点</td><td>从哪开始</td><td><code>i = 1</code> 或 <code>range(1, 11)</code></td></tr>
+  <tr><td>条件</td><td>什么时候继续</td><td><code>i &lt;= 10</code></td></tr>
+  <tr><td>更新</td><td>每轮怎么变</td><td><code>i += 1</code></td></tr>
+</table>
+<p>三样缺一，循环就不成立。for 循环把「起点、条件、更新」都藏在 <code>range()</code> 里了，所以看起来只有一行；while 循环三样都得你自己写。</p>
+
+<h3>2. for 和 while 怎么选</h3>
+<table>
+  <tr><th></th><th>for</th><th>while</th></tr>
+  <tr><td>适合</td><td>次数已知，或要遍历一个范围</td><td>次数未知，靠条件决定停不停</td></tr>
+  <tr><td>例子</td><td>打印 1 到 100、算 100 次方</td><td>猜数字直到猜中、输入 q 才退出</td></tr>
+  <tr><td>风险</td><td>基本没有</td><td>忘写更新就是死循环</td></tr>
+</table>
+<p class="tip"><b>一句话记</b>：知道几次用 for，不知道几次用 while。拿不准的时候优先 for，因为它不容易写错。</p>
+
+<h3>3. range 的四种写法（必须记死）</h3>
+<table>
+  <tr><th>写法</th><th>产生</th><th>说明</th></tr>
+  <tr><td><code>range(5)</code></td><td>0 1 2 3 4</td><td>从 0 开始，取不到 5</td></tr>
+  <tr><td><code>range(1, 5)</code></td><td>1 2 3 4</td><td>左闭右开，取不到 5</td></tr>
+  <tr><td><code>range(1, 10, 3)</code></td><td>1 4 7</td><td>步长 3</td></tr>
+  <tr><td><code>range(100, 0, -50)</code></td><td>100 50</td><td>负步长，倒着数，取不到 0</td></tr>
+</table>
+<p class="warn"><b>最常见的错</b>：想数到 100，却写 <code>range(100)</code>，结果是 0 到 99。要么写 <code>range(1, 101)</code>，要么写 <code>range(100)</code> 心里清楚差一个。</p>
+
+<h3>4. 循环的执行顺序（拿小数字走一遍）</h3>
+<pre class="code">total = 0
+for i in range(1, 4):
+    total += i
+print(total)</pre>
+<table>
+  <tr><th>轮次</th><th>i 的值</th><th>执行后 total</th></tr>
+  <tr><td>第 1 轮</td><td>1</td><td>0 + 1 = 1</td></tr>
+  <tr><td>第 2 轮</td><td>2</td><td>1 + 2 = 3</td></tr>
+  <tr><td>第 3 轮</td><td>3</td><td>3 + 3 = 6</td></tr>
+  <tr><td>结束</td><td>—</td><td>打印 6</td></tr>
+</table>
+<p class="small">看不懂代码的时候，就这样画表走一遍。数字用 3、4 这种小的，脑子才跟得上。</p>
+
+<h2>二、for 循环</h2>
+
+<h3>1. 基本形状</h3>
+<pre class="code">for 变量 in range(...):
+    要做的事        # 缩进四格</pre>
+<ul>
+  <li>行末必须有英文冒号。</li>
+  <li>下面缩进四格的行才属于循环，不缩进的在循环结束后执行一次。</li>
+  <li>循环变量（通常写 i）每轮自动换一个值，你不用管它怎么变。</li>
+  <li>用不到循环变量时，按惯例写成 <code>_</code>：<code>for _ in range(3):</code>。</li>
+</ul>
+
+<h3>2. 累加器模式（最高频的套路）</h3>
+<pre class="code">total = 0                 # ① 准备盒子，先装 0
+for i in range(1, 101):
+    total += i            # ② 每轮往里加
+print(total)              # ③ 循环结束后打印</pre>
+<p>这三步行话叫「初始化、累加、输出」。忘记第 ③ 步，程序算完了但你看不见结果，这是新手最常见的漏。</p>
+
+<div class="q">
+<p class="title">例题 1　打印 1 到 10<span class="lv">Lv1</span></p>
+<p><b>题目</b>：用 for 循环打印 1 到 10，每行一个。</p>
+<pre class="code">for i in range(1, 11):
+    print(i)</pre>
+<p><b>要点</b>：想打到 10，右边界要写 11。range 是左闭右开。</p>
+</div>
+
+<div class="q">
+<p class="title">例题 2　1 加到 100<span class="lv">Lv1</span></p>
+<p><b>题目</b>：求 1+2+3+…+100 的和。</p>
+<pre class="code">total = 0
+for i in range(1, 101):
+    total += i
+print(total)        # 5050</pre>
+<p><b>要点</b>：累加器一定先设 0。如果你想做乘法（阶乘），初值要设 1。</p>
+</div>
+
+<div class="q">
+<p class="title">例题 3　打印偶数<span class="lv">Lv2</span></p>
+<p><b>题目</b>：打印 1 到 20 之间的偶数。</p>
+<pre class="code"># 写法一：用条件筛
+for i in range(1, 21):
+    if i % 2 == 0:
+        print(i)
+
+# 写法二：直接用步长（更简洁）
+for i in range(2, 21, 2):
+    print(i)</pre>
+<p><b>要点</b>：两种都对。能用步长解决的，优先步长，代码短一半。</p>
+</div>
+
+<div class="q">
+<p class="title">例题 4　偶数求和<span class="lv">Lv2</span></p>
+<p><b>题目</b>：求 1 到 100 所有偶数的和。</p>
+<pre class="code">total = 0
+for i in range(2, 101, 2):
+    total += i
+print(total)        # 2550</pre>
+<p><b>要点</b>：注意跟例题 2 的区别——加不加条件。</p>
+</div>
+
+<div class="pb"></div>
+<h2>三、while 循环</h2>
+
+<h3>1. 基本形状</h3>
+<pre class="code">i = 1              # ① 起点
+while i &lt;= 5:      # ② 条件
+    print(i)
+    i += 1         # ③ 更新，缺了就是死循环</pre>
+<p class="warn"><b>死循环长什么样</b>：程序一直跑不停，运行窗口刷屏。PyCharm 里点运行窗口左上角的红色方块能停，命令行里按 Ctrl+C。</p>
+
+<h3>2. while True + break 模式</h3>
+<p>有些场景你不知道要循环几次，只知道「什么时候可以结束」。这时写成 <code>while True</code>，在循环体里判断，该走就 break。</p>
+<pre class="code">while True:
+    cmd = input("输入点什么（输 q 退出）：")
+    if cmd == "q":
+        break
+    print("你输入的是", cmd)</pre>
+<p class="tip"><b>要点</b>：<code>while True</code> 不是死循环，只要有一条路能 break，它就是正常的。这类写法在猜数字、菜单程序里到处都是。</p>
+
+<div class="q">
+<p class="title">例题 5　while 累加<span class="lv">Lv2</span></p>
+<p><b>题目</b>：用 while 求 1 加到 100。</p>
+<pre class="code">total = 0
+i = 1
+while i &lt;= 100:
+    total += i
+    i += 1
+print(total)        # 5050</pre>
+<p><b>要点</b>：注意 <code>i += 1</code> 放在循环体里面，不是在 if 里面，也不要漏。</p>
+</div>
+
+<div class="q">
+<p class="title">例题 6　倒数<span class="lv">Lv2</span></p>
+<p><b>题目</b>：用 while 从 10 数到 1，每行一个，最后打印「发射」。</p>
+<pre class="code">i = 10
+while i &gt;= 1:
+    print(i)
+    i -= 1
+print("发射")</pre>
+<p><b>要点</b>：倒着数就把更新写成 <code>i -= 1</code>，条件写成 <code>i &gt;= 1</code>。</p>
+</div>
+
+<h2>四、break 和 continue</h2>
+<table>
+  <tr><th></th><th>break</th><th>continue</th></tr>
+  <tr><td>作用</td><td>立刻结束整个循环</td><td>跳过本轮剩下的代码，进入下一轮</td></tr>
+  <tr><td>比喻</td><td>掀桌子走人</td><td>这盘菜不吃，下一盘继续</td></tr>
+  <tr><td>之后</td><td>循环外第一行继续执行</td><td>循环继续转</td></tr>
+</table>
+
+<div class="q">
+<p class="title">例题 7　找到就停<span class="lv">Lv2</span></p>
+<p><b>题目</b>：找出 1 到 100 里第一个能被 7 整除的数。</p>
+<pre class="code">for i in range(1, 101):
+    if i % 7 == 0:
+        print(i)      # 7
+        break</pre>
+<p><b>要点</b>：「找到就走」的场景，print 后面紧跟 break。不加 break 会把所有 7 的倍数都打出来。</p>
+</div>
+
+<div class="q">
+<p class="title">例题 8　跳过某些轮次<span class="lv">Lv2</span></p>
+<p><b>题目</b>：打印 1 到 10，跳过 3 的倍数。</p>
+<pre class="code">for i in range(1, 11):
+    if i % 3 == 0:
+        continue
+    print(i)          # 1 2 4 5 7 8 10</pre>
+<p><b>要点</b>：写在 if 里、写 return 那种想法是不对的。continue 只是「这轮不做了」，循环不会停。</p>
+</div>
+
+<div class="q">
+<p class="title">例题 9　break 和 continue 的区别（一定要自己跑）<span class="lv">Lv3</span></p>
+<pre class="code">for i in range(5):
+    if i == 2:
+        break
+    print("break 版：", i)     # 0 1
+
+for i in range(5):
+    if i == 2:
+        continue
+    print("continue 版：", i)  # 0 1 3 4</pre>
+<p><b>要点</b>：break 把 2 后面的全砍了；continue 只砍掉 2 这一轮。</p>
+</div>
+
+<div class="pb"></div>
+<h2>五、嵌套循环</h2>
+
+<p>循环里面还能再套循环。外层转一圈，内层转一整圈。摸清顺序就一句话：<b>外层管行，内层管列</b>。</p>
+
+<pre class="code">for i in range(1, 4):        # 外层：3 行
+    for j in range(1, 3):    # 内层：每行 2 个
+        print(i, j)
+    print("---")</pre>
+<p>输出：</p>
+<pre class="code">1 1
+1 2
+---
+2 1
+2 2
+---
+3 1
+3 2
+---</pre>
+<p class="small">看这个输出，能明白「外层慢、内层快」。i 还是 1 的时候，j 已经跑完 1、2 两轮了。</p>
+
+<div class="q">
+<p class="title">例题 10　打印星号三角形<span class="lv">Lv3</span></p>
+<p><b>题目</b>：打印 5 行，第 1 行 1 个星，第 2 行 2 个，一直到 5 个。</p>
+<pre class="code"># 写法一：字符串乘法，一行搞定
+for i in range(1, 6):
+    print("*" * i)
+
+# 写法二：内层循环，更通用
+for i in range(1, 6):
+    for j in range(i):
+        print("*", end="")
+    print()</pre>
+<p><b>要点</b>：<code>end=""</code> 让 print 不换行，一行打完了来一个空的 <code>print()</code> 换行。</p>
+</div>
+
+<div class="q">
+<p class="title">例题 11　九九乘法表<span class="lv">Lv4</span></p>
+<pre class="code">for i in range(1, 10):
+    for j in range(1, i + 1):
+        print(f"{i}×{j}={i*j}", end="\t")
+    print()</pre>
+<p><b>要点</b>：内层到 <code>i + 1</code> 为止，所以第 3 行只打到 3×3。这就是三角形效果。</p>
+</div>
+
+<div class="q">
+<p class="title">例题 12　金字塔<span class="lv">Lv4</span></p>
+<p><b>题目</b>：打印 5 行等腰三角形。</p>
+<pre class="code">n = 5
+for i in range(1, n + 1):
+    print(" " * (n - i) + "*" * (2 * i - 1))</pre>
+<p><b>要点</b>：每行 = 空格数 + 星号数。空格 <code>n - i</code>，星号 <code>2*i - 1</code>。先想清这两个公式再写。</p>
+</div>
+
+<div class="pb"></div>
+<h2>六、状态管理（最容易卡的地方）</h2>
+
+<p>很多人「看得懂但写不出」，卡的不是循环语法，是<b>循环里那些会变的变量</b>。循环里一共只有四种状态，认全了就通了。</p>
+
+<table>
+  <tr><th>类型</th><th>干什么</th><th>初值</th><th>循环里怎么写</th></tr>
+  <tr><td>计数器</td><td>数一共发生了几次</td><td><code>count = 0</code></td><td><code>count += 1</code></td></tr>
+  <tr><td>累加器</td><td>把值一点点加起来</td><td><code>total = 0</code></td><td><code>total += 值</code></td></tr>
+  <tr><td>最值</td><td>记住目前最大/最小的那个</td><td>第一个元素</td><td><code>if 新值 &gt; 最大: 最大 = 新值</code></td></tr>
+  <tr><td>标志位</td><td>记一件事有没有发生过</td><td><code>flag = True/False</code></td><td>发生就改，必要时 break</td></tr>
+</table>
+
+<h3>1. 计数器</h3>
+<div class="q">
+<p class="title">例题 13　数偶数个数<span class="lv">Lv2</span></p>
+<pre class="code">count = 0
+for i in range(1, 101):
+    if i % 2 == 0:
+        count += 1
+print(count)        # 50</pre>
+<p><b>要点</b>：计数器只在条件成立时加 1，不是每轮都加。</p>
+</div>
+
+<h3>2. 最值</h3>
+<div class="q">
+<p class="title">例题 14　找最大数<span class="lv">Lv3</span></p>
+<pre class="code">big = int(input("第1个数："))
+for i in range(4):
+    n = int(input("下一个数："))
+    if n &gt; big:
+        big = n
+print("最大的是", big)</pre>
+<p><b>要点</b>：先把第一个数当作「目前最大」，后面挨个比。这个套路能解决「最大值、最小值、最高分」一大类题。</p>
+</div>
+
+<h3>3. 标志位（素数就是它）</h3>
+<div class="q">
+<p class="title">例题 15　判断素数<span class="lv">Lv3</span></p>
+<pre class="code">num = int(input("请输入一个大于1的整数："))
+is_prime = True                 # 先假设它是素数
+for i in range(2, int(num ** 0.5) + 1):
+    if num % i == 0:
+        is_prime = False        # 找到因子，推翻假设
+        break
+if is_prime:                    # 判断放在循环外面！
+    print(f"{num} 是素数")
+else:
+    print(f"{num} 不是素数")</pre>
+<p class="warn"><b>千万别这样写</b>：把 if/else 放进循环里。<br>
+那样每试一个数就打印一次，结果反反复复，输出一堆「是/不是」。<br>
+正确做法：循环里只负责改标志，判断和打印都放到循环外面。</p>
+</div>
+
+<h3>4. 边循环边记录</h3>
+<div class="q">
+<p class="title">例题 16　找质数并统计<span class="lv">Lv4</span></p>
+<p><b>题目</b>：找出 1 到 100 所有质数，打印出来，并统计个数。</p>
+<pre class="code">count = 0
+for num in range(2, 101):
+    is_prime = True
+    for i in range(2, int(num ** 0.5) + 1):
+        if num % i == 0:
+            is_prime = False
+            break
+    if is_prime:
+        print(num, end=" ")
+        count += 1
+print()
+print("一共", count, "个")</pre>
+<p><b>要点</b>：标志位要放在外层循环里，每换一个数就重置一次。这是嵌套 + 标志的组合。</p>
+</div>
+
+<div class="pb"></div>
+<h2>七、分类题库（18 题，答案都在下面）</h2>
+
+<p class="small">建议做法：先不看答案，自己写。写完再对。写不出来就退回中文步骤。</p>
+
+<h3>Lv1　热手</h3>
+<ol>
+  <li>打印 1 到 10，每行一个。</li>
+  <li>打印 10 到 1，每行一个。</li>
+  <li>打印 1 到 10 的平方，格式「3 的平方是 9」。</li>
+</ol>
+
+<h3>Lv2　加条件</h3>
+<ol start="4">
+  <li>求 1 到 100 的和。</li>
+  <li>求 1 到 100 里所有奇数的和。</li>
+  <li>打印 1 到 100 里能被 7 整除的数。</li>
+  <li>数一数 1 到 100 里有多少个数能被 3 整除。</li>
+</ol>
+
+<h3>Lv3　状态管起来</h3>
+<ol start="8">
+  <li>输入 5 个数，找出最小的。</li>
+  <li>输入一个数，判断它是不是素数。</li>
+  <li>求 1 到 100 里能同时被 3 和 5 整除的数的和。</li>
+  <li>输入一个三位数，输出各位数字之和（385 → 16）。</li>
+</ol>
+
+<h3>Lv4　套起来</h3>
+<ol start="12">
+  <li>打印九九乘法表。</li>
+  <li>打印 5 行倒三角（5 4 3 2 1 个星）。</li>
+  <li>打印斐波那契数列前 10 项（1 1 2 3 5 8…）。</li>
+</ol>
+
+<h3>Lv5　综合</h3>
+<ol start="15">
+  <li>猜数字：电脑出 1 到 100，最多猜 5 次，用完提示答案。</li>
+  <li>找出 100 到 999 之间所有水仙花数（各位立方和等于本身，如 153）。</li>
+  <li>百钱百鸡：公鸡 5 元、母鸡 3 元、小鸡 1 元 3 只，100 元买 100 只，求组合。</li>
+  <li>求 1 到 100 里所有质数的和。</li>
+</ol>
+
+<div class="pb"></div>
+<h2>题库答案</h2>
+
+<h4>1. 打印 1 到 10</h4>
+<pre class="code">for i in range(1, 11):
+    print(i)</pre>
+
+<h4>2. 打印 10 到 1</h4>
+<pre class="code">for i in range(10, 0, -1):
+    print(i)</pre>
+
+<h4>3. 平方</h4>
+<pre class="code">for i in range(1, 11):
+    print(f"{i} 的平方是 {i ** 2}")</pre>
+
+<h4>4. 1 到 100 的和</h4>
+<pre class="code">total = 0
+for i in range(1, 101):
+    total += i
+print(total)        # 5050</pre>
+
+<h4>5. 奇数和</h4>
+<pre class="code">total = 0
+for i in range(1, 101, 2):
+    total += i
+print(total)        # 2500</pre>
+
+<h4>6. 7 的倍数</h4>
+<pre class="code">for i in range(1, 101):
+    if i % 7 == 0:
+        print(i)</pre>
+
+<h4>7. 数 3 的倍数个数</h4>
+<pre class="code">count = 0
+for i in range(1, 101):
+    if i % 3 == 0:
+        count += 1
+print(count)        # 33</pre>
+
+<h4>8. 找最小</h4>
+<pre class="code">small = int(input("第1个数："))
+for i in range(4):
+    n = int(input("下一个："))
+    if n &lt; small:
+        small = n
+print("最小的是", small)</pre>
+
+<h4>9. 判断素数</h4>
+<pre class="code">num = int(input("请输入一个大于1的整数："))
+is_prime = True
+for i in range(2, int(num ** 0.5) + 1):
+    if num % i == 0:
+        is_prime = False
+        break
+print(f"{num} 是素数" if is_prime else f"{num} 不是素数")</pre>
+
+<h4>10. 3 和 5 的公倍数之和</h4>
+<pre class="code">total = 0
+for i in range(1, 101):
+    if i % 3 == 0 and i % 5 == 0:
+        total += i
+print(total)        # 315</pre>
+<p class="small">注意：算完一定要 print(total)，只算不打印，屏幕上什么都没有。</p>
+
+<h4>11. 三位数各位之和</h4>
+<pre class="code">n = int(input("请输入三位数："))
+bai = n // 100
+shi = n // 10 % 10
+ge = n % 10
+print(bai + shi + ge)</pre>
+<p class="small">凭感觉写也行，但这个写法最干净：百位用 //100，十位用 //10 再 %10，个位直接 %10。</p>
+
+<h4>12. 九九乘法表</h4>
+<pre class="code">for i in range(1, 10):
+    for j in range(1, i + 1):
+        print(f"{i}×{j}={i*j}", end="\t")
+    print()</pre>
+
+<h4>13. 倒三角</h4>
+<pre class="code">for i in range(5, 0, -1):
+    print("*" * i)</pre>
+
+<h4>14. 斐波那契前 10 项</h4>
+<pre class="code">a, b = 1, 1
+for i in range(10):
+    print(a, end=" ")
+    a, b = b, a + b</pre>
+<p class="small"><code>a, b = b, a + b</code> 是同时赋值，右边先全算完再装左边。写成两句就错了。</p>
+
+<h4>15. 猜数字最多 5 次</h4>
+<pre class="code">import random
+
+answer = random.randrange(1, 101)
+for i in range(5):
+    guess = int(input(f"第{i+1}次猜："))
+    if guess == answer:
+        print("猜对了")
+        break
+    elif guess &gt; answer:
+        print("大了")
+    else:
+        print("小了")
+else:
+    print(f"机会用完了，答案是 {answer}")</pre>
+<p class="small">for-else：循环没被 break 打断才会执行 else。不想用这个特性，就自己加个计数器。</p>
+
+<h4>16. 水仙花数</h4>
+<pre class="code">for n in range(100, 1000):
+    a = n // 100
+    b = n // 10 % 10
+    c = n % 10
+    if a ** 3 + b ** 3 + c ** 3 == n:
+        print(n)</pre>
+
+<h4>17. 百钱百鸡</h4>
+<pre class="code">for cock in range(0, 21):
+    for hen in range(0, 34):
+        chick = 100 - cock - hen
+        if chick % 3 == 0 and 5 * cock + 3 * hen + chick // 3 == 100:
+            print(f"公鸡{cock}只，母鸡{hen}只，小鸡{chick}只")</pre>
+
+<h4>18. 质数之和</h4>
+<pre class="code">total = 0
+for num in range(2, 101):
+    is_prime = True
+    for i in range(2, int(num ** 0.5) + 1):
+        if num % i == 0:
+            is_prime = False
+            break
+    if is_prime:
+        total += num
+print(total)        # 1060</pre>
+
+<div class="pb"></div>
+<h2>八、循环里最常见的九个坑</h2>
+
+<table>
+  <tr><th>现象</th><th>原因</th><th>怎么修</th></tr>
+  <tr><td>程序一直跑不停</td><td>while 里忘了让变量变化</td><td>循环体里加 <code>i += 1</code></td></tr>
+  <tr><td>少跑一次 / 多跑一次</td><td>range 右边界是开区间</td><td>想含 100 就写 <code>range(1, 101)</code></td></tr>
+  <tr><td>屏幕上什么都没有</td><td>算完了没有 print</td><td>循环结束后补 <code>print(total)</code></td></tr>
+  <tr><td>打出一堆重复结果</td><td>该在循环外判断的放进了循环</td><td>把 if 判断搬到循环外面</td></tr>
+  <tr><td>找到答案了还在跑</td><td>忘了 break</td><td>print 后面加 <code>break</code></td></tr>
+  <tr><td>IndentationError</td><td>缩进不一致</td><td>同一层统一四空格</td></tr>
+  <tr><td>SyntaxError</td><td>中文冒号、漏冒号、单等号</td><td>切英文输入法，检查 : 和 ==</td></tr>
+  <tr><td>TypeError: ... str and int</td><td>文字跟数字拼接或比较</td><td>先 int() 转，再算</td></tr>
+  <tr><td>只打印了最后一个</td><td>print 写在了循环外面</td><td>要每轮都打印，就缩进进循环体</td></tr>
+</table>
+
+<h2>九、写不出来的解法：五步</h2>
+
+<ol>
+  <li><b>先写中文步骤</b>。三到五句，每句一个动作，不许出现代码。</li>
+  <li><b>定状态</b>。问自己四件事：数据从哪来？要几个变量、初值多少？循环里谁在变？最后打印什么？</li>
+  <li><b>把中文翻成代码</b>。一句对一行，不许合并。</li>
+  <li><b>先跑起来再加功能</b>。先让它打印一行，跑通，再加条件、再加累加。</li>
+  <li><b>报错了就读最后一行</b>。它一般直接告诉你哪里错了（哪行、什么类型）。</li>
+</ol>
+
+<div class="tip">
+<p><b>例子：求 1 到 100 里能被 7 整除的数的和</b></p>
+<p>① 中文步骤：<br>
+准备一个 total 装 0 → 让 i 从 1 走到 100 → 每次看 i 能不能被 7 整除 → 能加就放进 total → 走完打印 total</p>
+<p>② 四问：数据来自 1 到 100 的范围；变量两个（total、i）；循环里变的是 total；输出 total。</p>
+<p>③ 翻译：</p>
+<pre class="code">total = 0
+for i in range(1, 101):
+    if i % 7 == 0:
+        total += i
+print(total)</pre>
+</div>
+
+<div class="tip">
+<p><b>最后一句</b></p>
+<p>循环写不出来，九成不是语法问题，是「状态」没想清楚。</p>
+<p>把计数器、累加器、最值、标志位这四样摆出来，对着题问「这题需要哪几个」，答案就出来了。</p>
+</div>
+
+</body>
+</html>
